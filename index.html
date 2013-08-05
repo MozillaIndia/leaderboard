@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Mozilla India Contributor Dashboard</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+    .container {
+      width: auto;
+      max-width: 680px;
+      padding: 0 15px;
+    }
+</style>
+  </head>
+
+  <body>
+    <div class="container">
+
+      <h2>Mozilla India Contributor Dashboard</h2>
+
+      <table class="table table-striped" id="list">
+        <tr>
+          <td></td><td>Nick</td><td>Assigned Bugs</td><td>Fixed Bugs</td><td>Commit Access</td>
+        </tr>
+      </table>
+
+      <p>This dashboard displays your contribution stats to Mozilla. To add your name, go through the <a href="https://github.com/sankha93/mozdashboard">instructions</a>.</p>
+    </div>
+    <script type="text/javascript" src="users.json"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
+    <script type="text/javascript" src="js/bz.js"></script>
+    <script type="text/javascript" src="js/dashboard.js"></script>
+  </body>
+</html>
