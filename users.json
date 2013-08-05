@@ -8,5 +8,6 @@ var users = [
  ["abhishekp","abhishekp.bugzilla@gmail.com", 1],
  ["greatwarrior","amod.narvekar@gmail.com",1],
  ["darkowlzz", "indiasuny000@gmail.com", 1],
- ["MrDHat", "ktyaks@gmail.com", 0]
+ ["MrDHat", "ktyaks@gmail.com", 0],
+ ["SunilJoshi", "joshi_sunil@in.com", 0]
 ];
