@@ -1,4 +1,5 @@
 var bugzilla = createClient();
+$('#list').hide();
 var details = [];
 
 function displayResults() {
@@ -11,6 +12,7 @@ function displayResults() {
         '<td><span class="badge">' + details[i].fixed + '</span></td>' +
         '<td>' + details[i].access + '</td></tr>');
     }
+    $('#list').show();
     $('#loading').hide();
   }
 }
