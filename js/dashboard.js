@@ -1,4 +1,20 @@
 var bugzilla = createClient();
+var details = [];
+
+function displayResults() {
+  if(users.length == details.length) {
+    for(var i = 0; i < users.length; i++) {
+      $('#list').append('<tr><td>' +
+        '<img src="http://www.gravatar.com/avatar/' + details[i].hash + '"></td><td>' +
+        '<a href="mailto:' + details[i].email + '">' + details[i].name + '</a></td>' +
+        '<td><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + details[i].email + '"><span class="badge">' + details[i].total + '</span></a></td>' +
+        '<td><span class="badge">' + details[i].fixed + '</span></td>' +
+        '<td>' + details[i].access + '</td></tr>');
+    }
+    $('#loading').hide();
+  }
+}
+
 for (var i = 0; i < users.length; i++) {
   var hash = md5($.trim(users[i][1]).toLowerCase());
   var name = users[i][0];
@@ -25,12 +41,13 @@ for (var i = 0; i < users.length; i++) {
 
   var loaderFn = function(name, email, hash, access, fixed) {
     return function(msg, result) {
-      $('#list').append('<tr><td>' +
-        '<img src="http://www.gravatar.com/avatar/' + hash + '"></td><td>' +
-        '<a href="mailto:' + email + '">' + name + '</a></td>' +
-        '<td><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + email + '"><span class="badge">' + result + '</span></a></td>' +
-        '<td><span class="badge">' + fixed + '</span></td>' +
-        '<td>' + access + '</td></tr>');
+      details.push({ name: name,
+                     email: email,
+                     hash: hash,
+                     access: access,
+                     fixed: fixed,
+                     total: result });
+      displayResults();
     };
   };
   bugzilla.countBugs({email1: email,
