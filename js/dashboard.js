@@ -4,6 +4,7 @@ var details = [];
 
 function displayResults() {
   if(users.length == details.length) {
+    details.sort(function (a, b) { return b.total - a.total; });
     for(var i = 0; i < users.length; i++) {
       $('#list').append('<tr><td>' +
         '<img src="http://www.gravatar.com/avatar/' + details[i].hash + '"></td><td>' +
