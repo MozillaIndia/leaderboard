@@ -4,7 +4,7 @@ var details = [];
 
 function displayResults() {
   if(users.length == details.length) {
-    details.sort(function (a, b) { return b.total - a.total; });
+    details.sort(function (a, b) { return b.fixed - a.fixed; });
     for(var i = 0; i < users.length; i++) {
       $('#list').append('<tr><td>' +
         '<img src="http://www.gravatar.com/avatar/' + details[i].hash + '"></td><td>' +
@@ -55,5 +55,5 @@ for (var i = 0; i < users.length; i++) {
   };
   bugzilla.countBugs({email1: email,
                       email1_assigned_to: 1,
-                      status: ['RESOLVED', 'VERIFIED']}, resendFn(name, email, hash, access));
+                      status: ['RESOLVED', 'VERIFIED'],resolution: ['FIXED']}, resendFn(name, email, hash, access));
 }
