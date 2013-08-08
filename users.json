@@ -13,5 +13,5 @@ var users = [
  ["Sayak", "sayak.bugsmith@gmail.com", 0],
  ["Infinity", "junky.argonaut@gmail.com", 1],
  ["sushant","hiraysushant@gmail.com",0],
- ["Jignesh","jigneshhk1992@gmail.com",1]
+ ["jhk","jigneshhk1992@gmail.com",1]
 ];
