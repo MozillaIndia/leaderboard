@@ -65,10 +65,10 @@ for (var i = 0; i < users.length; i++) {
                   components: {},
                   total: result };
       for(var i = 0; i < fixed.length; i++) {
-        if(obj.components[fixed[i].component] == undefined)
-          obj.components[fixed[i].component] = 1;
+        if(obj.components[fixed[i].product + "::" + fixed[i].component] == undefined)
+          obj.components[fixed[i].product + "::" + fixed[i].component] = 1;
         else
-          obj.components[fixed[i].component]++;
+          obj.components[fixed[i].product + "::" + fixed[i].component]++;
       }
       details.push(obj);
       displayResults();
