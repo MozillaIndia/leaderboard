@@ -46,6 +46,9 @@ for (var i = 0; i < users.length; i++) {
     case 3:
       access = '<span class="label label-success">Level 3</span>';
       break;
+    default:
+      access = '<span class="label label-default">Level 0</span>';
+      break;
   }
 
   var resendFn = function(name, email, hash, access) {
