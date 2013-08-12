@@ -52,3 +52,8 @@ body {
 .container .credit {
   margin: 20px 0;
 }
+.avatar {
+  border-radius: 8%;
+  border: 2px solid #fff;
+  box-shadow: 1px 1px 2px #666;
+}
