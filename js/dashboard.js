@@ -18,13 +18,14 @@ function displayResults() {
   if(users.length == details.length) {
     details.sort(function (a, b) { return b.fixed - a.fixed; });
     for(var i = 0; i < users.length; i++) {
-      $('#list').append('<tr><td>' +
-        '<img src="http://www.gravatar.com/avatar/' + details[i].hash + '">' +
-        '<br><a href="mailto:' + details[i].email + '">' + details[i].name + '</a></td>' +
+      $('#list').append('<tr>' +
+        '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + details[i].hash + '"></td>' +
+        '<td><a href="mailto:' + details[i].email + '">' + details[i].name + '</a></td>' +
         '<td align="center"><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + details[i].email + '"><span class="badge">' + details[i].total + '</span></a></td>' +
         '<td align="center"><span class="badge">' + details[i].fixed + '</span></td>' +
         '<td align="center">' + details[i].access + '</td>' +
-        '<td>' + getMax(details[i].components) + '</td></tr>');
+        '<td align="right">' + getMax(details[i].components) + '</td>' +
+        '</tr>');
     }
     $('#list').show();
     $('#loading').hide();
