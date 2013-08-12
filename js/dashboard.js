@@ -2,18 +2,6 @@ var bugzilla = createClient();
 $('#list').hide();
 var details = [];
 
-function getMax(set) {
-  var component = "";
-  var num = 0;
-  for(var key in set) {
-    if (set[key] > num) {
-      num = set[key];
-      component = key;
-    }
-  }
-  return component;
-}
-
 function displayResults() {
   if(users.length == details.length) {
     details.sort(function (a, b) { return b.fixed - a.fixed; });
@@ -24,7 +12,7 @@ function displayResults() {
         '<td align="center"><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + details[i].email + '"><span class="badge">' + details[i].total + '</span></a></td>' +
         '<td align="center"><span class="badge">' + details[i].fixed + '</span></td>' +
         '<td align="center">' + details[i].access + '</td>' +
-        '<td align="right">' + getMax(details[i].components) + '</td>' +
+        '<td align="right">' + details[i].components + '</td>' +
         '</tr>');
     }
     $('#list').show();
@@ -52,34 +40,74 @@ for (var i = 0; i < users.length; i++) {
       break;
   }
 
-  var resendFn = function(name, email, hash, access) {
-    return function(msg, result) {
+  var countAssigned = function(name, email, hash, access) {
+    return function(msg, fixed) {
       bugzilla.countBugs({email1: email,
-                          email1_assigned_to: 1}, loaderFn(name, email, hash, access, result));
+                          email1_assigned_to: 1}, countComponent(name, email, hash, access, fixed));
     };
   };
 
-  var loaderFn = function(name, email, hash, access, fixed) {
-    return function(msg, result) {
+  var countComponent = function(name, email, hash, access, fixed) {
+    return function(msg, assigned) {
+      bugzilla.countBugsX({
+        x_axis_field: "product",
+        y_axis_field: "component",
+        "field0-0-0": "attachment.is_patch",
+        "type0-0-0": "equals",
+        "value0-0-0": 1,
+        "field0-2-0": "attachment.attacher",
+        "type0-2-0": "equals",
+        "value0-2-0": email,
+        "field0-1-0": "flagtypes.name",
+        "type0-1-0": "contains",
+        "value0-1-0": "+",
+        email1: email,
+        email1_assigned_to: 1,
+        status: ['RESOLVED', 'VERIFIED'],
+        resolution: ['FIXED']
+      }, loaderFn(name, email, hash, access, fixed, assigned));
+    };
+  };
+
+  var loaderFn = function(name, email, hash, access, fixed, assigned) {
+    return function(msg, components) {
       var obj = { name: name,
                   email: email,
                   hash: hash,
                   access: access,
-                  fixed: fixed.length,
-                  components: {},
-                  total: result };
-      for(var i = 0; i < fixed.length; i++) {
-        if(obj.components[fixed[i].product + "::" + fixed[i].component] == undefined)
-          obj.components[fixed[i].product + "::" + fixed[i].component] = 1;
-        else
-          obj.components[fixed[i].product + "::" + fixed[i].component]++;
+                  fixed: fixed,
+                  components: "",
+                  total: assigned };
+      var data = [];
+      if (components.data.length) {
+        data = data.concat.apply(data, components.data);
+        var largest = Math.max.apply(Math, data);
+        var index = data.indexOf(largest);
+        if (largest > 0) {
+          obj.components = ((components.x_labels[index%components.x_labels.length] || "") + " :: " +
+                            (components.y_labels[index/components.x_labels.length|0] || ""))
+                            .replace(/(^ :: | :: $)/g, "");
+        }
       }
       details.push(obj);
       displayResults();
     };
   };
-  bugzilla.searchBugs({email1: email,
-                      email1_assigned_to: 1,
-                      status: ['RESOLVED', 'VERIFIED'],
-                      resolution: ['FIXED']}, resendFn(name, email, hash, access));
+
+  // Count fixed bugs
+  bugzilla.countBugs({
+    "field0-0-0": "attachment.is_patch",
+    "type0-0-0": "equals",
+    "value0-0-0": 1,
+    "field0-2-0": "attachment.attacher",
+    "type0-2-0": "equals",
+    "value0-2-0": email,
+    "field0-1-0": "flagtypes.name",
+    "type0-1-0": "contains",
+    "value0-1-0": "+",
+    email1: email,
+    email1_assigned_to: 1,
+    status: ['RESOLVED', 'VERIFIED'],
+    resolution: ['FIXED']
+  }, countAssigned(name, email, hash, access));
 }
