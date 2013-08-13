@@ -7,15 +7,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Mozilla India Contributor Dashboard</title>
+    <title>Mozilla India Developer Dashboard</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-    .container {
-      width: auto;
-      max-width: 680px;
-      padding: 0 15px;
-    }
-    </style>
+    <link href="css/dashboard.css" rel="stylesheet">
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -31,7 +25,7 @@
   <body>
     <div class="container">
 
-      <h2>Mozilla India Developer Dashboard</h2>
+      <h1>Mozilla India Developer Dashboard</h1>
 
       <div class="progress progress-striped active" id="loading">
         <div class="progress-bar" style="width: 100%"></div>
@@ -39,11 +33,19 @@
 
       <table class="table table-striped" id="list">
         <tr>
-          <td></td><td>Nick</td><td>Assigned Bugs</td><td>Fixed Bugs</td><td>Commit Access</td>
+            <th colspan="2">Pic 'n' Nick</th>
+            <th>Assigned Bugs</th>
+            <th>Fixed Bugs</th>
+            <th>Commit Access</th>
+            <th>Kickass in</th>
         </tr>
       </table>
 
-      <p>This dashboard displays your contribution stats to Mozilla. To add your name, go through the <a href="https://github.com/sankha93/mozdashboard">instructions</a>.</p>
+      <p id="memo">
+        This dashboard displays your contribution stats to Mozilla.
+        <br />
+        To add your name, go through the <a href="https://github.com/sankha93/mozdashboard">instructions</a>.
+      </p>
     </div>
     <script type="text/javascript" src="users.json"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
