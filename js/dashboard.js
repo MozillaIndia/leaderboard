@@ -1,5 +1,13 @@
 var bugzilla = createClient();
 var details = JSON.parse(localStorage.getItem("data-details") || '[]');
+// Sanitize the data stored in localstorage
+for (var i = 0; i < details.length; i++) {
+  for (var key in details[i]) {
+    if (key.length > 1) {
+      delete details[i][key];
+    }
+  }
+}
 var pushed = JSON.parse(localStorage.getItem("data-pushed") || '{}');
 var numFixedRecieved = 0;
 var numAssignedRecieved = 0;
@@ -17,8 +25,8 @@ function sortResults() {
 
   itemsArr.sort(function(a, b) {
     try {
-      a = details[pushed[a.id]].fixed;
-      b = details[pushed[b.id]].fixed;
+      a = details[pushed[a.id]].f;
+      b = details[pushed[b.id]].f;
       return a > b ? -1 : 1;
     } catch (ex) {
       return 1;
@@ -45,13 +53,16 @@ users.sort(function(a, b) {
   var trimmedEmail1 = a[1].replace(/[.@]/g, "");
   var trimmedEmail2 = b[1].replace(/[.@]/g, "");
   try {
-    var aa = details[pushed[trimmedEmail1]].fixed || 0;
-    var bb = details[pushed[trimmedEmail2]].fixed || 0;
+    var aa = details[pushed[trimmedEmail1]].f || 0;
+    var bb = details[pushed[trimmedEmail2]].f || 0;
     return aa < bb ? 1 : -1;
   } catch (ex) {
     return -1;
   }
 });
+
+var buffer = "";
+
 for (var i = 0; i < users.length; i++) {
   var hash = md5($.trim(users[i][1]).toLowerCase());
   var name = users[i][0];
@@ -76,23 +87,30 @@ for (var i = 0; i < users.length; i++) {
   var fixed = "", assigned = "", component = "";
   if (pushed[trimmedEmail] != undefined) {
     var obj = details[pushed[trimmedEmail]];
-    fixed = obj.fixed || "";
-    assigned = obj.assigned || "";
-    component = obj.component || "";
+    fixed = obj.f > -1 ? obj.f: "";
+    assigned = obj.a > -1 ? obj.a: "";
+    component = obj.c || "";
   }
-  $('#list tbody').append('<tr id="' + trimmedEmail + '">' +
+  buffer += '<tr id="' + trimmedEmail + '">' +
     '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + hash + '?s=48"></td>' +
     '<td><a href="mailto:' + email + '">' + name + '</a></td>' +
     '<td align="center"><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + email + '"><span class="badge assigned" value="' + assigned + '">' + assigned + '</span></a></td>' +
     '<td align="center"><span class="badge fixed" value="' + fixed + '">' + fixed + '</span></td>' +
     '<td align="center">' + access + '</td>' +
     '<td align="right" class="component">' + component + '</td>' +
-    '</tr>');
+    '</tr>';
 
   if (pushed[trimmedEmail] == undefined) {
     pushed[trimmedEmail] = details.length;
     details.push({});
   }
+}
+
+$("#list > tbody").html(buffer);
+
+for (var i = 0; i < users.length; i++) {
+  var email = users[i][1];
+  var trimmedEmail = email.replace(/[.@]/g, "");
 
   // Count fixed
   bugzilla.countBugs({
@@ -110,7 +128,7 @@ for (var i = 0; i < users.length; i++) {
     if (error) {
       return;
     }
-    details[pushed[this]].fixed = fixed;
+    details[pushed[this]].f = fixed;
     $("#" + this + " .fixed").text(fixed).attr("value", fixed);
     if (++numFixedRecieved == users.length) {
       sortResults();
@@ -126,7 +144,7 @@ for (var i = 0; i < users.length; i++) {
     if (error) {
       return;
     }
-    details[pushed[this]].assigned = assigned;
+    details[pushed[this]].a = assigned;
     $("#" + this + " .assigned").text(assigned).attr("value", assigned);
     maybeUpdateLocalStorage(++numAssignedRecieved);
   }.bind(trimmedEmail));
@@ -159,7 +177,7 @@ for (var i = 0; i < users.length; i++) {
                          (components.y_labels[index/components.x_labels.length|0] || ""))
                           .replace(/(^ :: | :: $)/g, "");
         $("#" + this + " .component").text(component);
-        details[pushed[this]].component = component;
+        details[pushed[this]].c = component;
       }
     }
     maybeUpdateLocalStorage(++numComponentsRecieved);
