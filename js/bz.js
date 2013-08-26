@@ -193,7 +193,7 @@ BugzillaClient.prototype = {
   }
 }
 
-var createBugzillaClient = function(options) {
+createClient = function(options) {
   return new BugzillaClient(options);
 }
 

@@ -1,5 +1,0 @@
-var mozGitRepos = [
-  ["rust", "mozilla/rust"],
-  ["servo", "mozilla/servo"],
-  ["prospector", "mozilla/prospector"]
-];
