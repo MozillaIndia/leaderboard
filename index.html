@@ -10,16 +10,6 @@
     <title>Mozilla India Developer Leaderboard</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-42948095-1', 'sankhs.com');
-      ga('send', 'pageview');
-
-    </script>
   </head>
 
   <body>
@@ -33,6 +23,7 @@
               <th colspan="2">Pic 'n' Nick</th>
               <th>Assigned Bugs</th>
               <th>Fixed Bugs</th>
+              <th>Git-ness</th>
               <th>Commit Access</th>
               <th>Kickass in</th>
           </tr>
@@ -48,9 +39,11 @@
       </p>
     </div>
     <script type="text/javascript" src="users.json"></script>
+    <script type="text/javascript" src="js/git-repos.json"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/bz.js"></script>
+    <script type="text/javascript" src="js/gh.js"></script>
     <script type="text/javascript" src="js/dashboard.js"></script>
   </body>
 </html>
