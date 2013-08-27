@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Mozilla India Developer Dashboard</title>
+    <title>Mozilla India Developer Leaderboard</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
     <script>
@@ -25,32 +25,35 @@
   <body>
     <div class="container">
 
-      <h1>Mozilla India Developer Dashboard</h1>
-
-      <div class="progress progress-striped active" id="loading">
-        <div class="progress-bar" style="width: 100%"></div>
-      </div>
+      <h1>Mozilla India Developer Leaderboard</h1>
 
       <table class="table table-striped" id="list">
-        <tr>
-            <th colspan="2">Pic 'n' Nick</th>
-            <th>Assigned Bugs</th>
-            <th>Fixed Bugs</th>
-            <th>Commit Access</th>
-            <th>Kickass in</th>
-        </tr>
+        <thead>
+          <tr>
+              <th colspan="2">Pic 'n' Nick</th>
+              <th>Assigned Bugs</th>
+              <th>Fixed Bugs</th>
+              <th>Git-ness</th>
+              <th>Commit Access</th>
+              <th>Kickass in</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
       </table>
 
       <p id="memo">
-        This dashboard displays your contribution stats to Mozilla.
+        This leaderboard displays your contribution stats to Mozilla.
         <br />
-        To add your name, go through the <a href="https://github.com/sankha93/mozdashboard">instructions</a>.
+        To add your name, go through the <a href="https://github.com/MozillaIndia/leaderboard">instructions</a>.
       </p>
     </div>
     <script type="text/javascript" src="users.json"></script>
+    <script type="text/javascript" src="js/git-repos.json"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/bz.js"></script>
+    <script type="text/javascript" src="js/gh.js"></script>
     <script type="text/javascript" src="js/dashboard.js"></script>
   </body>
 </html>

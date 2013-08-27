@@ -1,13 +1,32 @@
 @charset "utf-8";
 
 .container {
-  width: 800px;
-  padding: 0 15px;
+  width: 960px;
+  padding: 0 20px;
 }
 .avatar {
   border-radius: 8%;
   border: 2px solid #fff;
   box-shadow: 1px 1px 2px #666;
+  height: 48px;
+  width: 48px;
+}
+.component {
+  min-width: 250px;
+}
+.badge[value=""] {
+  display: inline-block !important;
+  min-width: 28px;
+  min-height: 18px;
+  background-image: radial-gradient(circle 8px at 8px 50%, white 0%, white 4px,
+                                    rgba(255,255,255,0.3) 6px, transparent 8px);
+  animation: loading 1s linear infinite alternate;
+  margin-top: 2px;
+}
+@keyframes loading {
+  to {
+    background-position: 12px;
+  }
 }
 h1 { margin: 5rem auto 3rem; }
 h1, #list th, #memo {
