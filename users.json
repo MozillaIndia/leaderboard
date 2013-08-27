@@ -1,14 +1,23 @@
-// [IRC Nick, Email, Commit Access Level]
+// [IRC Nick, Email, Github User Name, Commit Access Level]
+// Please user double space instead of tab and add a space after the comma.
+// Also, if you are adding your name, add it to the end of the list with a
+// trailing comma at the end. Use double quotes.
 var users = [
- ["Debloper", "debloper@gmail.com", 1],
- ["Optimizer", "scrapmachines@gmail.com", 3],
- ["sankha93", "sankha93@gmail.com", 1],
- ["Sawrubh", "saurabhanandiit@gmail.com", 3],
- ["ShellHacker","sudheesh1995@yahoo.com",0],
- ["abhishekp","abhishekp.bugzilla@gmail.com", 1],
- ["greatwarrior","amod.narvekar@gmail.com",1],
- ["darkowlzz", "indiasuny000@gmail.com", 1],
- ["MrDHat", "ktyaks@gmail.com", 0],
- ["SunilJoshi", "joshi_sunil@in.com", 0],
- ["Sayak", "sayak.bugsmith@gmail.com", 0]
+  ["Debloper", "debloper@gmail.com", "debloper", 1],
+  ["Optimizer", "scrapmachines@gmail.com", "scrapmac", 3],
+  ["sankha93", "sankha93@gmail.com", "sankha93", 1],
+  ["Sawrubh", "saurabhanandiit@gmail.com", "sawrubh", 3],
+  ["ShellHacker", "sudheesh1995@yahoo.com", "sudheesh001", 0],
+  ["abhishekp", "abhishekp.bugzilla@gmail.com", "abhishekvp", 1],
+  ["greatwarrior", "amod.narvekar@gmail.com", "amodnn", 1],
+  ["darkowlzz", "indiasuny000@gmail.com", "darkowlzz", 1],
+  ["MrDHat", "ktyaks@gmail.com", "MrDHat", 0],
+  ["SunilJoshi", "joshi_sunil@in.com", "ersuniljoshi", 0],
+  ["Sayak", "sayak.bugsmith@gmail.com", "sayak-sarkar", 0],
+  ["Infinity", "junky.argonaut@gmail.com", "nAk123", 1],
+  ["sushant", "hiraysushant@gmail.com", "sushant-hiray", 0],
+  ["jhk", "jigneshhk1992@gmail.com", "jigneshhk", 1],
+  ["kaustavdm", "kaustav.dasmodak@yahoo.co.in", "kaustavdm", 0],
+  ["Manishearth", "manishsmail@gmail.com", "Manishearth", 0],
+  ["rajat190", "rg.rajatgupta@gmail.com", " rajat190", 0],
 ];

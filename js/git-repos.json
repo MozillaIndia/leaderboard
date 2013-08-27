@@ -1,0 +1,15 @@
+var mozGitRepos = [
+  ["rust", "mozilla/rust"],
+  ["servo", "mozilla/servo"],
+  ["prospector", "mozilla/prospector"],
+  ["collusion", "mozilla/collusion"],
+  ["shumway", "mozilla/shumway"],
+  ["pdf.js", "mozilla/pdf.js"],
+  ["addon-sdk", "mozilla/addon-sdk"],
+  ["r2d2b2g", "mozilla/r2d2b2g"],
+  ["towtruck", "mozilla/towtruck"],
+  ["bedrock","mozilla/bedrock"],
+  ["kuma","mozilla/kuma"],
+  ["kitsune","mozilla/kitsune"],
+  ["socorro","mozilla/socorro"],
+];
