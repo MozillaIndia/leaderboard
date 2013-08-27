@@ -12,5 +12,5 @@ var mozGitRepos = [
   ["shumway", "mozilla/shumway"],
   ["servo", "mozilla/servo"],
   ["socorro","mozilla/socorro"],
-  ["towtruck", "mozilla/towtruck"],
+  ["towtruck", "mozilla/towtruck"]
 ];
