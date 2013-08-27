@@ -7,4 +7,10 @@ var mozGitRepos = [
   ["pdf.js", "mozilla/pdf.js"],
   ["addon-sdk", "mozilla/addon-sdk"],
   ["r2d2b2g", "mozilla/r2d2b2g"],
+  ["asknot", "jdm/asknot"],
+  ["towtruck", "mozilla/towtruck"],
+  ["bedrock","mozilla/bedrock"],
+  ["kuma","mozilla/kuma"],
+  ["kitsune","mozilla/kitsune"],
+  ["socorro","mozilla/socorro"],
 ];
