@@ -12,4 +12,7 @@ var mozGitRepos = [
   ["kuma","mozilla/kuma"],
   ["kitsune","mozilla/kitsune"],
   ["socorro","mozilla/socorro"],
+  ["browserid","mozilla/browserid"],
+  ["picl-idp","mozilla/picl-idp"],
+  ["zamboni","mozilla/zamboni"]
 ];
