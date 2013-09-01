@@ -23,24 +23,38 @@
   animation: loading 1s linear infinite alternate;
   margin-top: 2px;
 }
-[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta]:after {
+.badge:not([delta="0"]):not([delta="NaN"])[delta]:after {
   content: "+" attr(delta);
   color: green;
   position: absolute;
   padding-left: 10px;
+}
+tbody:not([sorted]) .badge:not([delta="0"]):not([delta="NaN"])[delta-type="inc"][delta] {
+  background-color: green;
+}
+tbody:not([sorted]) .badge:not([delta="0"]):not([delta="NaN"])[delta-type="dec"][delta] {
+  background-color: red;
+}
+tbody[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta-type="dec"][delta] {
+  animation: fade-red 20s ease 0s 1;
+}
+tbody[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta-type="inc"][delta] {
+  animation: fade-green 20s ease 0s 1;
+}
+tbody[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta]:after {
   animation: fade-out 20s ease 0s 1;
   visibility: collapse;
 }
-[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta-type="inc"][delta]:after {
+.badge:not([delta="0"]):not([delta="NaN"])[delta-type="inc"][delta]:after {
   content: "+" attr(delta);
   color: green;
 }
-[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta-type="dec"][delta]:after {
-  content: "-" attr(delta);
+.badge:not([delta="0"]):not([delta="NaN"])[delta-type="dec"][delta]:after {
+  content: attr(delta);
   color: red;
 }
 @keyframes fade-out {
-  80% {
+  90% {
     opacity: 1;
     visibility: visible;
   }
@@ -51,6 +65,28 @@
   to {
     opacity: 0;
     visibility: collapse;
+  }
+}
+@keyframes fade-red {
+  from {
+    background-color: red;
+  }
+  90% {
+    background-color: red;
+  }
+  to {
+    background-color: rgb(153, 153, 153);
+  }
+}
+@keyframes fade-green {
+  from {
+    background-color: green;
+  }
+  90% {
+    background-color: green;
+  }
+  to {
+    background-color: rgb(153, 153, 153);
   }
 }
 @keyframes loading {
