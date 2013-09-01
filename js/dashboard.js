@@ -39,6 +39,8 @@ function sortResults() {
   for (i = 0; i < itemsArr.length; ++i) {
     table.appendChild(itemsArr[i]);
   }
+
+  table.setAttribute("sorted", true);
 }
 
 function maybeUpdateLocalStorage() {
@@ -136,8 +138,14 @@ for (var i = 0, repo = mozGitRepos[i][1];
           if (gitNumbers[this].length == mozGitRepos.length) {
             gitRecieved++;
             var sum = eval(gitNumbers[this].join("+"));
+            var prev = details[pushed[this]].g;
             details[pushed[this]].g = sum;
-            $("#" + this + " .git").text(sum).attr("value", sum);
+            $("#" + this + " .git").text(sum)
+                                   .attr("value", sum)
+                                   .attr("delta", sum - +prev)
+                                   .attr("delta-type", sum > prev
+                                                           ? "inc"
+                                                           : "dec");
             maybeUpdateLocalStorage();
           }
           return;
@@ -148,8 +156,14 @@ for (var i = 0, repo = mozGitRepos[i][1];
         if (gitNumbers[trimmedEmail].length == mozGitRepos.length) {
           gitRecieved++;
           var sum = eval(gitNumbers[trimmedEmail].join("+"));
+          var prev = details[pushed[trimmedEmail]].g;
           details[pushed[trimmedEmail]].g = sum;
-          $("#" + trimmedEmail + " .git").text(sum).attr("value", sum);
+          $("#" + trimmedEmail + " .git").text(sum)
+                                         .attr("value", sum)
+                                         .attr("delta", sum - +prev)
+                                         .attr("delta-type", sum > prev
+                                                                 ? "inc"
+                                                                 : "dec");
           maybeUpdateLocalStorage();
         }
       }
@@ -178,8 +192,14 @@ for (var i = 0; i < users.length; i++) {
     if (error) {
       return;
     }
+    var prev = details[pushed[this]].f;
     details[pushed[this]].f = fixed;
-    $("#" + this + " .fixed").text(fixed).attr("value", fixed);
+    $("#" + this + " .fixed").text(fixed)
+                             .attr("value", fixed)
+                             .attr("delta", fixed - +prev)
+                             .attr("delta-type", fixed > prev
+                                                       ? "inc"
+                                                       : "dec");
     if (++numFixedRecieved == users.length) {
       sortResults();
       maybeUpdateLocalStorage();
@@ -194,8 +214,14 @@ for (var i = 0; i < users.length; i++) {
     if (error) {
       return;
     }
+    var prev = details[pushed[this]].a;
     details[pushed[this]].a = assigned;
-    $("#" + this + " .assigned").text(assigned).attr("value", assigned);
+    $("#" + this + " .assigned").text(assigned)
+                                .attr("value", assigned)
+                                .attr("delta", assigned - +prev)
+                                .attr("delta-type", assigned > prev
+                                                             ? "inc"
+                                                             : "dec");
     maybeUpdateLocalStorage(++numAssignedRecieved);
   }.bind(trimmedEmail));
 
