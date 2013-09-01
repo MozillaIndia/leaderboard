@@ -156,7 +156,7 @@ for (var i = 0, repo = mozGitRepos[i][1];
         if (gitNumbers[trimmedEmail].length == mozGitRepos.length) {
           gitRecieved++;
           var sum = eval(gitNumbers[trimmedEmail].join("+"));
-          var prev = details[pushed[this]].g;
+          var prev = details[pushed[trimmedEmail]].g;
           details[pushed[trimmedEmail]].g = sum;
           $("#" + trimmedEmail + " .git").text(sum)
                                          .attr("value", sum)
