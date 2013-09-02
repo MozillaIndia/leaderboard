@@ -1,5 +1,31 @@
 @charset "utf-8";
 
+#loader {
+  background-position: 0px 0px;
+  width: 100%;
+  height: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(to right, rgba(1,254,197,0.1), rgba(1,254,197,0.8));
+  background-color: transparent;
+  background-repeat: no-repeat;
+  transition: background-size 200ms ease, opacity 500ms ease 750ms,
+              background-color 500ms ease;
+}
+#loader[complete="100"] {
+  background-size: 100% 6px;
+  background-color: rgba(1,254,197,0.8);
+  height: 4px !important;
+  opacity: 0;
+}
+#loader:not([complete="100"]):hover:after {
+  display: block;
+  content: attr(complete) "% updated...";
+  width: 100%;
+  text-align: center;
+  color: rgba(85,200,255,0.9);
+}
 .container {
   width: 960px;
   padding: 0 20px;
