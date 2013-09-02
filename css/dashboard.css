@@ -20,12 +20,12 @@
   height: 4px !important;
   opacity: 0;
 }
-#loader:not([complete="100"]):hover:after {
+#loader:not([complete="100"]):not([complete="0"])[complete]:hover:after {
   display: block;
   content: attr(complete) "% updated...";
   width: 100%;
   text-align: center;
-  color: rgba(85,200,255,0.9);
+  color: rgb(70,200,250);
 }
 .container {
   width: 960px;
