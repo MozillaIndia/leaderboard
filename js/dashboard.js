@@ -44,6 +44,11 @@ function sortResults() {
 }
 
 function maybeUpdateLocalStorage() {
+  var perc = 100*(numComponentsRecieved + numAssignedRecieved + gitRecieved)/
+             (3*users.length);
+  $("#loader").attr("complete", Math.round(perc)).css({
+    "background-size": perc + "% 3px"
+  });
   if (numComponentsRecieved == users.length &&
       numAssignedRecieved == users.length &&
       numFixedRecieved == users.length &&
@@ -52,6 +57,7 @@ function maybeUpdateLocalStorage() {
     localStorage.removeItem("data-details");
     localStorage.setItem("data-pushed", JSON.stringify(pushed));
     localStorage.setItem("data-details", JSON.stringify(details));
+    $("#loader").removeAttr("title");
   }
 }
 
