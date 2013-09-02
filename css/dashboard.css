@@ -10,6 +10,7 @@
   background-image: linear-gradient(to right, rgba(1,254,197,0.1), rgba(1,254,197,0.8));
   background-color: transparent;
   background-repeat: no-repeat;
+  background-size: 0px 6px;
   transition: background-size 200ms ease, opacity 500ms ease 750ms,
               background-color 500ms ease;
 }

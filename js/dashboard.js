@@ -57,6 +57,7 @@ function maybeUpdateLocalStorage() {
     localStorage.removeItem("data-details");
     localStorage.setItem("data-pushed", JSON.stringify(pushed));
     localStorage.setItem("data-details", JSON.stringify(details));
+    $("#loader").removeAttr("title");
   }
 }
 
