@@ -3,12 +3,13 @@ var https = require("https"),
     buffer = require("buffer"),
     bz = require("bz"),
     crypto = require("crypto"),
-    config = require("./config.js");
+    config = require("./config.js"),
+    keys = require("./keys.js");
 
 var country = config.country,
     limit = config.limit,
-    appName = config.appName,
-    apiKey = config.apiKey;
+    appName = keys.appName,
+    apiKey = keys.apiKey;
 
 var bugzilla = bz.createClient();
 var offset = 0;
