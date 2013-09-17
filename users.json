@@ -2,7 +2,7 @@
 // Please user double space instead of tab and add a space after the comma.
 // Also, if you are adding your name, add it to the end of the list with a
 // trailing comma at the end. Use double quotes.
-var users = [
+[
   ["Debloper", "debloper@gmail.com", "debloper", 1],
   ["Optimizer", "scrapmachines@gmail.com", "scrapmac", 3],
   ["sankha93", "sankha93@gmail.com", "sankha93", 1],
