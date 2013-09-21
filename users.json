@@ -21,5 +21,4 @@ var users = [
   ["Manishearth", "manishearth@gmail.com", "Manishearth", 0],
   ["rajat190", "rg.rajatgupta@gmail.com", " rajat190", 0],
   ["chetand", "chetandhembre@gmail.com", "chetandhembre", 0],
-       
 ];
