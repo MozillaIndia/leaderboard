@@ -1,6 +1,6 @@
 
 /*
-   store  
+   store constants in Constansts Object 
 */
 
 var Constants = {

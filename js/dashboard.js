@@ -28,8 +28,6 @@ function isValidEmailId(emailId) {
     return false;
 }
 
-
-
 /*
     return bugzilla profile url of given email
 */
@@ -43,9 +41,6 @@ function add_bugzilla_profile_link(emailId) {
         return "#"; 
      }     
 }    
-
-
-
 
 function sortResults() {
   var table = document.querySelector('#list tbody');
