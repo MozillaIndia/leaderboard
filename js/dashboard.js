@@ -16,6 +16,32 @@ var numComponentsRecieved = 0;
 var gitRecieved = 0;
 var gitNumbers = {};
 
+/*
+   validate email
+   should remove to utils.js file
+*/
+function isValidEmailId(emailId) {
+    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+    if (reg.test(emailId)){
+        return true; 
+    }
+    return false;
+}
+
+/*
+    return bugzilla profile url of given email
+*/
+function add_bugzilla_profile_link(emailId) {
+    var BUGZILLA_PROFILE_URL : "https://bugzilla.mozilla.org/user_profile?login="   
+    // validate emailId
+     if(isValidEmailId(emailId)){
+        return Constants.BUGZILLA_PROFILE_URL + encodeURIComponent(emailId); 
+     } else {
+        console.error("invalid email id"); 
+        return "#"; 
+     }     
+}    
+
 function sortResults() {
   var table = document.querySelector('#list tbody');
   var items = table.childNodes;
@@ -110,7 +136,7 @@ for (var i = 0; i < users.length; i++) {
   }
   buffer += '<tr id="' + trimmedEmail + '">' +
     '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + hash + '?s=48"></td>' +
-    '<td><a href="mailto:' + email + '">' + name + '</a></td>' +
+    '<td><a href="' add_bugzilla_profile_link(email);'">' + name + '</a></td>' +
     '<td align="center"><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + email + '"><span class="badge assigned" value="' + assigned + '">' + assigned + '</span></a></td>' +
     '<td align="center"><span class="badge fixed" value="' + fixed + '">' + fixed + '</span></td>' +
     '<td align="center"><span class="badge git" value="' + git + '">' + git + '</span></td>' +
