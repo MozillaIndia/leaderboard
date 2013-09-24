@@ -3,12 +3,13 @@ var github = createGitHubClient();
 var details = JSON.parse(localStorage.getItem("data-details") || '[]');
 // Sanitize the data stored in localstorage
 for (var i = 0; i < details.length; i++) {
-  for (var key in details[i]) {
-    if (key.length > 1) {
-      delete details[i][key];
+    for (var key in details[i]) {
+        if (key.length > 1) {
+            delete details[i][key];
+        }
     }
-  }
 }
+
 var pushed = JSON.parse(localStorage.getItem("data-pushed") || '{}');
 var numFixedRecieved = 0;
 var numAssignedRecieved = 0;
@@ -23,8 +24,8 @@ var gitNumbers = {};
 */
 function isValidEmailId(emailId) {
     var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
-    if (reg.test(emailId)){
-        return true; 
+    if (reg.test(emailId)) {
+        return true;
     }
     return false;
 }
@@ -33,264 +34,256 @@ function isValidEmailId(emailId) {
     return bugzilla profile url of given email
 */
 function add_bugzilla_profile_link(emailId) {
-    var BUGZILLA_PROFILE_URL = "https://bugzilla.mozilla.org/user_profile?login=";
     // validate emailId
-     if(isValidEmailId(emailId)){
-        return Constants.BUGZILLA_PROFILE_URL + encodeURIComponent(emailId); 
-     } else {
-        console.error("invalid email id"); 
-        return "#"; 
-     }     
+    if (isValidEmailId(emailId)) {
+        return  "https://bugzilla.mozilla.org/user_profile?login=" + encodeURIComponent(emailId);
+    } else {
+        console.error("invalid email id");
+        return "#";
+    }
 }
 
 
 function sortResults() {
-  var table = document.querySelector('#list tbody');
-  var items = table.childNodes;
-  var itemsArr = [];
-  for (var i in items) {
-    if (items[i].nodeType == 1) { // get rid of the whitespace text nodes
-      itemsArr.push(items[i]);
+    var table = document.querySelector('#list tbody');
+    var items = table.childNodes;
+    var itemsArr = [];
+    for (var i in items) {
+        if (items[i].nodeType == 1) { // get rid of the whitespace text nodes
+            itemsArr.push(items[i]);
+        }
     }
-  }
 
-  itemsArr.sort(function(a, b) {
-    try {
-      a = details[pushed[a.id]].f;
-      b = details[pushed[b.id]].f;
-      return a > b ? -1 : 1;
-    } catch (ex) {
-      return 1;
+    itemsArr.sort(function (a, b) {
+        try {
+            a = details[pushed[a.id]].f;
+            b = details[pushed[b.id]].f;
+            return a > b ? -1 : 1;
+        } catch (ex) {
+            return 1;
+        }
+    });
+
+    for (i = 0; i < itemsArr.length; ++i) {
+        table.appendChild(itemsArr[i]);
     }
-  });
 
-  for (i = 0; i < itemsArr.length; ++i) {
-    table.appendChild(itemsArr[i]);
-  }
-
-  table.setAttribute("sorted", true);
+    table.setAttribute("sorted", true);
 }
 
 function maybeUpdateLocalStorage() {
-  var perc = 100*(numComponentsRecieved + numAssignedRecieved + gitRecieved)/
-             (3*users.length);
-  $("#loader").attr("complete", Math.round(perc)).css({
-    "background-size": perc + "% 3px"
-  });
-  if (numComponentsRecieved == users.length &&
-      numAssignedRecieved == users.length &&
-      numFixedRecieved == users.length &&
-      gitRecieved == users.length) {
-    localStorage.removeItem("data-pushed");
-    localStorage.removeItem("data-details");
-    localStorage.setItem("data-pushed", JSON.stringify(pushed));
-    localStorage.setItem("data-details", JSON.stringify(details));
-    $("#loader").removeAttr("title");
-  }
+    var perc = 100 * (numComponentsRecieved + numAssignedRecieved + gitRecieved) /
+        (3 * users.length);
+    $("#loader").attr("complete", Math.round(perc)).css({
+        "background-size": perc + "% 3px"
+    });
+    if (numComponentsRecieved == users.length &&
+        numAssignedRecieved == users.length &&
+        numFixedRecieved == users.length &&
+        gitRecieved == users.length) {
+        localStorage.removeItem("data-pushed");
+        localStorage.removeItem("data-details");
+        localStorage.setItem("data-pushed", JSON.stringify(pushed));
+        localStorage.setItem("data-details", JSON.stringify(details));
+        $("#loader").removeAttr("title");
+    }
 }
 
-users.sort(function(a, b) {
-  var trimmedEmail1 = a[1].replace(/[.@]/g, "");
-  var trimmedEmail2 = b[1].replace(/[.@]/g, "");
-  try {
-    var aa = details[pushed[trimmedEmail1]].f || 0;
-    var bb = details[pushed[trimmedEmail2]].f || 0;
-    return aa < bb ? 1 : -1;
-  } catch (ex) {
-    return -1;
-  }
+users.sort(function (a, b) {
+    var trimmedEmail1 = a[1].replace(/[.@]/g, "");
+    var trimmedEmail2 = b[1].replace(/[.@]/g, "");
+    try {
+        var aa = details[pushed[trimmedEmail1]].f || 0;
+        var bb = details[pushed[trimmedEmail2]].f || 0;
+        return aa < bb ? 1 : -1;
+    } catch (ex) {
+        return -1;
+    }
 });
 
 var buffer = "";
 
 for (var i = 0; i < users.length; i++) {
-  var hash = md5($.trim(users[i][1]).toLowerCase());
-  var name = users[i][0];
-  var email = users[i][1];
-  var trimmedEmail = email.replace(/[.@]/g, "");
-  gitNumbers[trimmedEmail] = [];
-  if (!users[i][2]) {
-    gitRecieved++;
-  }
-  var access = "";
-  switch(users[i][3]) {
+    var hash = md5($.trim(users[i][1]).toLowerCase());
+    var name = users[i][0];
+    var email = users[i][1];
+    var trimmedEmail = email.replace(/[.@]/g, "");
+    gitNumbers[trimmedEmail] = [];
+    if (!users[i][2]) {
+        gitRecieved++;
+    }
+    var access = "";
+    switch (users[i][3]) {
     case 1:
-      access = '<span class="label label-info">Level 1</span>';
-      break;
+        access = '<span class="label label-info">Level 1</span>';
+        break;
     case 2:
-      access = '<span class="label label-warning">Level 2</span>';
-      break;
+        access = '<span class="label label-warning">Level 2</span>';
+        break;
     case 3:
-      access = '<span class="label label-success">Level 3</span>';
-      break;
+        access = '<span class="label label-success">Level 3</span>';
+        break;
     default:
-      access = '<span class="label label-default">Level 0</span>';
-      break;
-  }
+        access = '<span class="label label-default">Level 0</span>';
+        break;
+    }
 
-  var fixed = "", assigned = "", component = "", git = "";
-  if (pushed[trimmedEmail] != undefined) {
-    var obj = details[pushed[trimmedEmail]];
-    fixed = obj.f > -1 ? obj.f: "";
-    assigned = obj.a > -1 ? obj.a: "";
-    git = obj.g > -1 ? obj.g: "";
-    component = obj.c || "";
-  }
-  buffer += '<tr id="' + trimmedEmail + '">' +
-    '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + hash + '?s=48"></td>' +
-    '<td><a href="'+add_bugzilla_profile_link(email)+'">' + name + '</a></td>' +
-    '<td align="center"><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + email + '"><span class="badge assigned" value="' + assigned + '">' + assigned + '</span></a></td>' +
-    '<td align="center"><span class="badge fixed" value="' + fixed + '">' + fixed + '</span></td>' +
-    '<td align="center"><span class="badge git" value="' + git + '">' + git + '</span></td>' +
-    '<td align="center">' + access + '</td>' +
-    '<td align="right" class="component">' + component + '</td>' +
-    '</tr>';
+    var fixed = "",
+        assigned = "",
+        component = "",
+        git = "";
+    if (pushed[trimmedEmail] != undefined) {
+        var obj = details[pushed[trimmedEmail]];
+        fixed = obj.f > -1 ? obj.f : "";
+        assigned = obj.a > -1 ? obj.a : "";
+        git = obj.g > -1 ? obj.g : "";
+        component = obj.c || "";
+    }
+    buffer += '<tr id="' + trimmedEmail + '">' +
+        '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + hash + '?s=48"></td>' +
+        '<td><a href="' + add_bugzilla_profile_link(email) + '">' + name + '</a></td>' +
+        '<td align="center"><a target="_blank" href="https://bugzilla.mozilla.org/buglist.cgi?quicksearch=ALL%20assignee%3A' + email + '"><span class="badge assigned" value="' + assigned + '">' + assigned + '</span></a></td>' +
+        '<td align="center"><span class="badge fixed" value="' + fixed + '">' + fixed + '</span></td>' +
+        '<td align="center"><span class="badge git" value="' + git + '">' + git + '</span></td>' +
+        '<td align="center">' + access + '</td>' +
+        '<td align="right" class="component">' + component + '</td>' +
+        '</tr>';
 
-  if (pushed[trimmedEmail] == undefined) {
-    pushed[trimmedEmail] = details.length;
-    details.push({});
-  }
+    if (pushed[trimmedEmail] == undefined) {
+        pushed[trimmedEmail] = details.length;
+        details.push({});
+    }
 }
 
 $("#list > tbody").html(buffer);
 
 // Get GitHub stats
-for (var i = 0, repo = mozGitRepos[i][1];
-     mozGitRepos[i] && (repo = mozGitRepos[i][1]) && i < mozGitRepos.length;
-     i++) {
-  github.getContributorList(repo, function(list) {
-    var repoContributorList = {};
-    for (var k = 0, item = list[k]; (item = list[k]) && k < list.length; k++) {
-      repoContributorList[item.login] = 1;
-    }
-    for (var k = 0, login = users[k][2];
-         (users[k] && (login = users[k][2])) || k < users.length; k++) {
-      var trimmedEmail = users[k][1].replace(/[.@]/g, "");
-      if (repoContributorList[login]) {
-        github.getCommitList(this, login, function callback(commitList) {
-          gitNumbers[this].push(commitList.length);
-          if (gitNumbers[this].length == mozGitRepos.length) {
-            gitRecieved++;
-            var sum = eval(gitNumbers[this].join("+"));
-            var prev = details[pushed[this]].g;
-            details[pushed[this]].g = sum;
-            $("#" + this + " .git").text(sum)
-                                   .attr("value", sum)
-                                   .attr("delta", sum - +prev)
-                                   .attr("delta-type", sum > prev
-                                                           ? "inc"
-                                                           : "dec");
-            maybeUpdateLocalStorage();
-          }
-          return;
-        }.bind(trimmedEmail));
-      }
-      else {
-        gitNumbers[trimmedEmail].push(0);
-        if (gitNumbers[trimmedEmail].length == mozGitRepos.length) {
-          gitRecieved++;
-          var sum = eval(gitNumbers[trimmedEmail].join("+"));
-          var prev = details[pushed[trimmedEmail]].g;
-          details[pushed[trimmedEmail]].g = sum;
-          $("#" + trimmedEmail + " .git").text(sum)
-                                         .attr("value", sum)
-                                         .attr("delta", sum - +prev)
-                                         .attr("delta-type", sum > prev
-                                                                 ? "inc"
-                                                                 : "dec");
-          maybeUpdateLocalStorage();
+for (var i = 0, repo = mozGitRepos[i][1]; mozGitRepos[i] && (repo = mozGitRepos[i][1]) && i < mozGitRepos.length; i++) {
+    github.getContributorList(repo, function (list) {
+        var repoContributorList = {};
+        for (var k = 0, item = list[k];
+        (item = list[k]) && k < list.length; k++) {
+            repoContributorList[item.login] = 1;
         }
-      }
-    }
-  }.bind(repo));
+        for (var k = 0, login = users[k][2];
+        (users[k] && (login = users[k][2])) || k < users.length; k++) {
+            var trimmedEmail = users[k][1].replace(/[.@]/g, "");
+            if (repoContributorList[login]) {
+                github.getCommitList(this, login, function callback(commitList) {
+                    gitNumbers[this].push(commitList.length);
+                    if (gitNumbers[this].length == mozGitRepos.length) {
+                        gitRecieved++;
+                        var sum = eval(gitNumbers[this].join("+"));
+                        var prev = details[pushed[this]].g;
+                        details[pushed[this]].g = sum;
+                        $("#" + this + " .git").text(sum)
+                            .attr("value", sum)
+                            .attr("delta", sum - +prev)
+                            .attr("delta-type", sum > prev ? "inc" : "dec");
+                        maybeUpdateLocalStorage();
+                    }
+                    return;
+                }.bind(trimmedEmail));
+            } else {
+                gitNumbers[trimmedEmail].push(0);
+                if (gitNumbers[trimmedEmail].length == mozGitRepos.length) {
+                    gitRecieved++;
+                    var sum = eval(gitNumbers[trimmedEmail].join("+"));
+                    var prev = details[pushed[trimmedEmail]].g;
+                    details[pushed[trimmedEmail]].g = sum;
+                    $("#" + trimmedEmail + " .git").text(sum)
+                        .attr("value", sum)
+                        .attr("delta", sum - +prev)
+                        .attr("delta-type", sum > prev ? "inc" : "dec");
+                    maybeUpdateLocalStorage();
+                }
+            }
+        }
+    }.bind(repo));
 }
 
 // Get Bugzilla stats.
 for (var i = 0; i < users.length; i++) {
-  var email = users[i][1];
-  var trimmedEmail = email.replace(/[.@]/g, "");
+    var email = users[i][1];
+    var trimmedEmail = email.replace(/[.@]/g, "");
 
-  // Count fixed
-  bugzilla.countBugs({
-    "field0-0-0": "attachment.is_patch",
-    "type0-0-0": "equals",
-    "value0-0-0": 1,
-    "field0-1-0": "flagtypes.name",
-    "type0-1-0": "contains",
-    "value0-1-0": "+",
-    email1: email,
-    email1_assigned_to: 1,
-    status: ['RESOLVED', 'VERIFIED'],
-    resolution: ['FIXED']
-  }, function(error, fixed) {
-    if (error) {
-      return;
-    }
-    var prev = details[pushed[this]].f;
-    details[pushed[this]].f = fixed;
-    $("#" + this + " .fixed").text(fixed)
-                             .attr("value", fixed)
-                             .attr("delta", fixed - +prev)
-                             .attr("delta-type", fixed > prev
-                                                       ? "inc"
-                                                       : "dec");
-    if (++numFixedRecieved == users.length) {
-      sortResults();
-      maybeUpdateLocalStorage();
-    }
-  }.bind(trimmedEmail));
+    // Count fixed
+    bugzilla.countBugs({
+        "field0-0-0": "attachment.is_patch",
+        "type0-0-0": "equals",
+        "value0-0-0": 1,
+        "field0-1-0": "flagtypes.name",
+        "type0-1-0": "contains",
+        "value0-1-0": "+",
+        email1: email,
+        email1_assigned_to: 1,
+        status: ['RESOLVED', 'VERIFIED'],
+        resolution: ['FIXED']
+    }, function (error, fixed) {
+        if (error) {
+            return;
+        }
+        var prev = details[pushed[this]].f;
+        details[pushed[this]].f = fixed;
+        $("#" + this + " .fixed").text(fixed)
+            .attr("value", fixed)
+            .attr("delta", fixed - +prev)
+            .attr("delta-type", fixed > prev ? "inc" : "dec");
+        if (++numFixedRecieved == users.length) {
+            sortResults();
+            maybeUpdateLocalStorage();
+        }
+    }.bind(trimmedEmail));
 
-  // Count assigned
-  bugzilla.countBugs({
-    email1: email,
-    email1_assigned_to: 1
-  }, function(error, assigned) {
-    if (error) {
-      return;
-    }
-    var prev = details[pushed[this]].a;
-    details[pushed[this]].a = assigned;
-    $("#" + this + " .assigned").text(assigned)
-                                .attr("value", assigned)
-                                .attr("delta", assigned - +prev)
-                                .attr("delta-type", assigned > prev
-                                                             ? "inc"
-                                                             : "dec");
-    maybeUpdateLocalStorage(++numAssignedRecieved);
-  }.bind(trimmedEmail));
+    // Count assigned
+    bugzilla.countBugs({
+        email1: email,
+        email1_assigned_to: 1
+    }, function (error, assigned) {
+        if (error) {
+            return;
+        }
+        var prev = details[pushed[this]].a;
+        details[pushed[this]].a = assigned;
+        $("#" + this + " .assigned").text(assigned)
+            .attr("value", assigned)
+            .attr("delta", assigned - +prev)
+            .attr("delta-type", assigned > prev ? "inc" : "dec");
+        maybeUpdateLocalStorage(++numAssignedRecieved);
+    }.bind(trimmedEmail));
 
-  // Calculate Component
-  bugzilla.countBugsX({
-    x_axis_field: "product",
-    y_axis_field: "component",
-    "field0-0-0": "attachment.is_patch",
-    "type0-0-0": "equals",
-    "value0-0-0": 1,
-    "field0-1-0": "flagtypes.name",
-    "type0-1-0": "contains",
-    "value0-1-0": "+",
-    email1: email,
-    email1_assigned_to: 1,
-    status: ['RESOLVED', 'VERIFIED'],
-    resolution: ['FIXED']
-  }, function(error, components) {
-    if (error) {
-      return;
-    }
-    var data = [];
-    if (components && components.data && components.data.length) {
-      data = data.concat.apply(data, components.data);
-      var largest = Math.max.apply(Math, data);
-      var index = data.indexOf(largest);
-      if (largest > 0) {
-        var component = ((components.x_labels[index%components.x_labels.length] || "") + " :: " +
-                         (components.y_labels[index/components.x_labels.length|0] || ""))
-                          .replace(/(^ :: | :: $)/g, "");
-        $("#" + this + " .component").text(component);
-        details[pushed[this]].c = component;
-      }
-    }
-    maybeUpdateLocalStorage(++numComponentsRecieved);
-  }.bind(trimmedEmail));
+    // Calculate Component
+    bugzilla.countBugsX({
+        x_axis_field: "product",
+        y_axis_field: "component",
+        "field0-0-0": "attachment.is_patch",
+        "type0-0-0": "equals",
+        "value0-0-0": 1,
+        "field0-1-0": "flagtypes.name",
+        "type0-1-0": "contains",
+        "value0-1-0": "+",
+        email1: email,
+        email1_assigned_to: 1,
+        status: ['RESOLVED', 'VERIFIED'],
+        resolution: ['FIXED']
+    }, function (error, components) {
+        if (error) {
+            return;
+        }
+        var data = [];
+        if (components && components.data && components.data.length) {
+            data = data.concat.apply(data, components.data);
+            var largest = Math.max.apply(Math, data);
+            var index = data.indexOf(largest);
+            if (largest > 0) {
+                var component = ((components.x_labels[index % components.x_labels.length] || "") + " :: " +
+                    (components.y_labels[index / components.x_labels.length | 0] || ""))
+                    .replace(/(^ :: | :: $)/g, "");
+                $("#" + this + " .component").text(component);
+                details[pushed[this]].c = component;
+            }
+        }
+        maybeUpdateLocalStorage(++numComponentsRecieved);
+    }.bind(trimmedEmail));
 
 }
