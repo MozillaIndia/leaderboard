@@ -32,7 +32,7 @@ function isValidEmailId(emailId) {
     return bugzilla profile url of given email
 */
 function add_bugzilla_profile_link(emailId) {
-   
+    var BUGZILLA_PROFILE_URL : "https://bugzilla.mozilla.org/user_profile?login="   
     // validate emailId
      if(isValidEmailId(emailId)){
         return Constants.BUGZILLA_PROFILE_URL + encodeURIComponent(emailId); 
