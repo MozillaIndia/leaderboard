@@ -18,7 +18,7 @@ var emails = [],
     mozillians = [];
 
 var totalUsers = 0,
-    completedUsers = 0;
+    completedUsers = 0;    
 
 function constructPath() {
     return "/api/v1/users/?app_name=" + appName +
@@ -66,15 +66,26 @@ function saveFile() {
     });
 }
 
+function maybeSave(obj, pending, save) {
+    if (pending == 0) {
+        completedUsers++;
+        console.log("Completed Bugzilla requests for", obj.name, "(" + completedUsers + "/" + totalUsers + ")");
+        if (obj.bugzilla.assigned != 0) {
+            userData.push(obj);
+        }
+        if (completedUsers == totalUsers && save)
+            saveFile();
+    }
+}
+
 function createUser(userObj, private, save) {
     if(emails.indexOf(userObj.email) != -1)
         return;
 
-    console.log("Making Bugzilla requests for", userObj.full_name);
     totalUsers++;
-    var pending = 0;
     var obj = {};
     var email = userObj.email;
+    var pending = 0;
     if (private)
         obj.email = "";
     else
@@ -105,13 +116,7 @@ function createUser(userObj, private, save) {
         }
         obj.bugzilla.fixed = fixed;
         pending--;
-        if (pending == 0) {
-            completedUsers++;
-            if (obj.bugzilla.assigned != 0)
-                userData.push(obj);
-            if (completedUsers == totalUsers && save)
-                saveFile();
-        }
+        maybeSave(obj, pending, save);
     });
 
     pending++;
@@ -126,13 +131,7 @@ function createUser(userObj, private, save) {
         }
         obj.bugzilla.assigned = assigned;
         pending--;
-        if (pending == 0) {
-            completedUsers++;
-            if (obj.bugzilla.assigned != 0)
-                userData.push(obj);
-            if (completedUsers == totalUsers && save)
-                saveFile();
-        }
+        maybeSave(obj, pending, save);
     });
 
     pending++;
@@ -166,20 +165,14 @@ function createUser(userObj, private, save) {
             }
         }
         pending--;
-        if (pending == 0) {
-            completedUsers++;
-            if (obj.bugzilla.assigned != 0)
-                userData.push(obj);
-            if (completedUsers == totalUsers && save)
-                saveFile();
-        }
+        maybeSave(obj, pending, save);
     });
     emails.push(email);
 }
 
 function processMozillians(data) {
     for( var i = 0; i < data.length; i++) {
-        createUser(data[i], true);
+        createUser(data[i], true, true);
     }
 }
 
@@ -190,6 +183,7 @@ function makeRequest() {
             data += d.toString();
         });
         res.on("end", function() {
+            console.log("Completed request to Mozillians API ...");
             var tmp = JSON.parse(data).objects;
             mozillians = mozillians.concat(tmp);
             if (tmp.length == limit) {
