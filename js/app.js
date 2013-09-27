@@ -8,11 +8,13 @@ var leaderboard = {};
 
   leaderboard.mostActiveOf = function (data) {
     var counts = [], components = [];
-    for (var i in data) {
-      components.push(i);
-      counts.push(data[i]);
-    }
-    return components[counts.indexOf(Math.max.apply(window, counts))];
+    if (Object.keys(data).length !== 0) {
+      for (var i in data) {
+        components.push(i);
+        counts.push(data[i]);
+      }
+      return components[counts.indexOf(Math.max.apply(window, counts))];
+    } else return "";
   }
 
   leaderboard.accessLevel = function (access) {
