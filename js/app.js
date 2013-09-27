@@ -1,6 +1,20 @@
 // The application specific JS goes in here
 
+// Global namespace
+var leaderboard = {};
+
+// Closure to encapsule the executables
 (function () {
+
+  leaderboard.mostActiveOf = function (data) {
+    var counts = [], components = [];
+      for (let i in data) {
+        components.push(i);
+        counts.push(data[i]);
+      }
+      return components[counts.indexOf(Math.max.apply(window, counts))];
+  }
+
   $.ajax({
     url: "stats.json"
   }).done(function (data) {
@@ -18,7 +32,7 @@
         '<td align="center"><span class="badge assigned" value="' + item.bugzilla.assigned + '">' + item.bugzilla.assigned + '</span></td>' +
         '<td align="center"><span class="badge fixed" value="' + item.bugzilla.fixed + '">' + item.bugzilla.fixed + '</span></td>' +
         '<td align="center">' + item.level + '</td>' +
-        '<td align="right" class="component">' + JSON.stringify(item.components) + '</td>' +
+        '<td align="right" class="component">' + leaderboard.mostActiveOf(item.components) + '</td>' +
         '</tr>';
     }
 
