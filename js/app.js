@@ -15,6 +15,19 @@ var leaderboard = {};
     return components[counts.indexOf(Math.max.apply(window, counts))];
   }
 
+  leaderboard.accessLevel = function (access) {
+    switch(access) {
+      case 1:
+        return '<span class="label label-info">Level 1</span>';
+      case 2:
+        return '<span class="label label-warning">Level 2</span>';
+      case 3:
+        return '<span class="label label-success">Level 3</span>';
+      default:
+        return '<span class="label label-default">Level 0</span>';
+    }
+  }
+
   leaderboard.sortResults = function () {
     var table = document.querySelector("#list tbody")
     ,   items = table.childNodes
@@ -51,7 +64,7 @@ var leaderboard = {};
         '<td><a href="#">' + item.name + '</a></td>' +
         '<td align="center"><span class="badge assigned">' + item.bugzilla.assigned + '</span></td>' +
         '<td align="center"><span class="badge fixed">' + item.bugzilla.fixed + '</span></td>' +
-        '<td align="center">' + item.level + '</td>' +
+        '<td align="center">' + leaderboard.accessLevel(item.level) + '</td>' +
         '<td align="right" class="component">' + leaderboard.mostActiveOf(item.components) + '</td>' +
         '</tr>';
     }
