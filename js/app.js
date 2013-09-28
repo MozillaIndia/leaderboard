@@ -58,7 +58,7 @@ var leaderboard = {};
   }
 
   $.ajax({
-    url: "stats.json"
+    url: "http://mozillaindia.org/stats.json"
   }).done(function (data) {
     var dom = "";
 
