@@ -17,6 +17,13 @@ var leaderboard = {};
     } else return "";
   }
 
+  leaderboard.bugLinksOf = function (email) {
+    if (email) {
+      return 'target="_blank" href="https://bugzilla.mozilla.org/' +
+        'buglist.cgi?quicksearch=ALL%20assignee%3A' + email + '"';
+    } else return "";
+  }
+
   leaderboard.accessLevel = function (access) {
     switch(access) {
       case 1:
@@ -61,10 +68,11 @@ var leaderboard = {};
     for (var i in data) {
       var item = data[i];
 
-      dom += '<tr id="' + item.email + '">' +
+      dom += '<tr>' +
         '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + item.gravatar + '?s=48"></td>' +
-        '<td><a href="#">' + item.name + '</a></td>' +
-        '<td align="center"><span class="badge assigned">' + item.bugzilla.assigned + '</span></td>' +
+        '<td><a href="mailto:' + item.email + '">' + item.name + '</a></td>' +
+        '<td align="center"><a ' + leaderboard.bugLinksOf(item.email) + '>' +
+        '<span class="badge assigned">' + item.bugzilla.assigned + '</span></a></td>' +
         '<td align="center"><span class="badge fixed">' + item.bugzilla.fixed + '</span></td>' +
         '<td align="center">' + leaderboard.accessLevel(item.level) + '</td>' +
         '<td align="right" class="component">' + leaderboard.mostActiveOf(item.components) + '</td>' +
