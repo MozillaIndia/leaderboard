@@ -11,7 +11,7 @@ Leaderboard has a [backend](https://github.com/MozillaIndia/leaderchalk) & a fro
 The following is run as a daily cron-job to fetch the data to be used by the frontend. This makes the data non-realtime; however, that saves us from making truck-load of BZ queries from each client.
 
 * We ask the list of [Mozillians](http://mozillians.org) from India
-* We use the their emails to query [BMO](http://bugzilla.mozilla.org)
+* We use their emails to query [BMO](http://bugzilla.mozilla.org)
 * We get the list of Mozillians with Assigned bugs
 * We check for how many bugs they've fixed with patches
 * We save the list as `stats.json`, to be consumed by the frontend
