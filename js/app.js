@@ -68,7 +68,7 @@ var leaderboard = {};
     for (var i in data) {
       var item = data[i];
 
-      dom += '<tr>' +
+      if (item.bugzilla.fixed) dom += '<tr>' +
         '<td><img class="avatar" src="http://www.gravatar.com/avatar/' + item.gravatar + '?s=48"></td>' +
         '<td><a href="mailto:' + item.email + '">' + item.name + '</a></td>' +
         '<td align="center"><a ' + leaderboard.bugLinksOf(item.email) + '>' +
