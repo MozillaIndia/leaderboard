@@ -72,6 +72,18 @@ tbody[sorted] .badge:not([delta="0"]):not([delta="NaN"])[delta]:after {
   animation: fade-out 20s ease 0s 1;
   visibility: collapse;
 }
+table.tablesorter thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(desc.gif);
+}
 .badge:not([delta="0"]):not([delta="NaN"])[delta-type="inc"][delta]:after {
   content: "+" attr(delta);
   color: green;

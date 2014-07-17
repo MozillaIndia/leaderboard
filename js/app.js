@@ -83,6 +83,7 @@ var leaderboard = {};
     // Sort the stats.json data itself, before putting in the DOM.
     $("#list").append(dom);
     leaderboard.sortResults();
+    setTimeout(function(){$("#list").tablesorter({headers: {0: {sorter: false}}});},100);
 
   }).fail(function (error) {
     console.log(error);
