@@ -1,6 +1,6 @@
 # Mozilla India Developer Leaderboard
 
-How awesome are you among your peers? Find out in this leaderboard.
+How awesome are you amongst your peers? Find out using this leaderboard.
 
 ## How does it work?
 
@@ -18,4 +18,4 @@ The following is run as a daily cron-job to fetch the data to be used by the fro
 
 ### The frontend
 
-The frontend is really a simpleton. It only asks for the JSON provided by the backend & formats it in a way that gives us better understanding of the developer-contribution metrics.
+The frontend is really a simpleton. It only asks for the JSON provided by the backend & formats it in a way that gives us a better understanding of the developer-contribution metrics.
