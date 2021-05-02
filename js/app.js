@@ -58,7 +58,7 @@ var leaderboard = {};
   }
 
   $.ajax({
-    url: "http://devs.mozillaindia.org/stats/india.json"
+    url: "https://mozillaindia.github.io/stats/india.json"
   }).done(function (data) {
     var dom = "";
 
